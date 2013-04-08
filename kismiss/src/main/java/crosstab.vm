@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="$reportParams.get("reportName")"
+#if($reportParams.get("columnCount"))
+		 columnCount="$reportParams.get("columnCount")"		 
+#else
+		 columnCount="1"
+#end
+		 printOrder="$reportParams.get("printOrder")"		 
+		 orientation="$reportParams.get("orientation")"
+		 pageWidth="$reportParams.get("pageWidth")"
+		 pageHeight="$reportParams.get("pageHeight")"
+		 columnWidth="$reportParams.get("columnWidth")"
+		 columnSpacing="$reportParams.get("columnSpacing")"
+		 leftMargin="$reportParams.get("leftMargin")"
+		 rightMargin="$reportParams.get("rightMargin")"
+		 topMargin="$reportParams.get("rightMargin")"
+		 bottomMargin="$reportParams.get("bottomMargin")"
+		 whenNoDataType="$reportParams.get("whenNoDataType")"
+		 isFloatColumnFooter="$reportParams.get("isFloatColumnFooter")"
+		 isTitleNewPage="$reportParams.get("isTitleNewPage")"
+		 isSummaryNewPage="$reportParams.get("isSummaryNewPage")"
+	>
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<parameter name="BACKGROUND" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TITLE" isForPrompting="false" class="java.lang.String"/>
+
+#set ($curlyOpen_ = '{')
+#set ($curlyClose_ = '}')
+#set ($volumnPattern = '#,##0.00')
+#set ($F = '$F')
+#set ($V = '$V')
+#foreach($info in $infos)
+	<field name="$info.attributeName" class="$info.type">	
+		<fieldDescription><![CDATA[$info.attributeName]]></fieldDescription>
+	</field>
+#end
+#set($NO = 'NO')
+	<variable name="NO" class="java.lang.Integer" resetType="Report" calculation="Count">
+		<variableExpression><![CDATA[$V$curlyOpen_$NO$curlyClose_]]></variableExpression>
+	</variable>
+	<title>
+			
+			#if($reportParams.get("isTitleEveryPage")=='false')
+				#set($titleTall = 25)
+				#if($subTitles)
+				#set($titleTall = $titleTall + $subTitles.size() * 25)
+				#else
+				#set($titleTall = 25)
+				#end
+				<band height="$titleTall"  isSplitAllowed="true" >				
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="$reportParams.get("finalWidth")"
+						height="25"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+					#set($P = '$P')
+					#set($TITLE = 'TITLE')
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$P$curlyOpen_$TITLE$curlyClose_]]>
+					</textFieldExpression>
+				</textField>	
+				#set($heightSub = 0)
+				#foreach($subTitle in $subTitles)
+				#set($heightSub = $heightSub + 25)
+				<staticText>
+					<reportElement
+						x="0"
+						y="$heightSub"
+						width="$reportParams.get("finalWidth")"
+						height="20"
+						key="staticText-1"/>
+					<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+					</textElement>
+				<text><![CDATA[$subTitle]]></text>
+				</staticText>
+				#end
+			</band>	
+			#end
+			
+		</title>
+				<pageHeader>
+			#if($reportParams.get("isTitleEveryPage")=='true')
+			#set($titleTall = 25)
+			#if($subTitles)
+			#set($titleTall = $titleTall + $subTitles.size() * 25)
+			#else
+			#set($titleTall = 25)
+			#end
+			<band height="$titleTall"  isSplitAllowed="true" >				
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="$reportParams.get("finalWidth")"
+						height="25"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+					#set($P = '$P')
+					#set($TITLE = 'TITLE')
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$P$curlyOpen_$TITLE$curlyClose_]]>
+					</textFieldExpression>
+				</textField>
+				#set($heightSub = 0)
+				#foreach($subTitle in $subTitles)
+				#set($heightSub = $heightSub + 25)
+				<staticText>
+					<reportElement
+						x="0"
+						y="$heightSub"
+						width="$reportParams.get("finalWidth")"
+						height="20"
+						key="staticText-1"/>
+					<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+					</textElement>
+				<text><![CDATA[$subTitle]]></text>
+				</staticText>
+				#end			
+			</band>
+			#end
+		</pageHeader>
+		<summary>
+		#set($bandHeight = $reportParams.get("pageHeight") - 300)
+		#set($crosstabHeight = $reportParams.get("pageHeight") - 310)
+			<band height="$bandHeight"  isSplitAllowed="true" >
+				<crosstab >
+					<reportElement
+						x="0"
+						y="1"
+						width="$reportParams.get("columnWidth")"
+						height="$crosstabHeight"
+						key="crosstab-1"/>
+					<crosstabHeaderCell>						
+						<cellContents mode="Transparent">
+							<box></box>
+						</cellContents>
+					</crosstabHeaderCell>		
+					#foreach($info in $infos)
+					#if($info.rowGroup == 'true')			
+					<rowGroup name="$info.attributeName" width="$reportParams.get("crosstabHeaderWidth")" totalPosition="End">
+						<bucket>
+							#set ($firstName = 'firstName')
+							<bucketExpression class="java.lang.String"><![CDATA[$F$curlyOpen_$info.attributeName$curlyClose_]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents mode="Transparent">
+								<box></box>
+								<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+									<reportElement
+										x="0"
+										y="0"
+										width="$reportParams.get("crosstabHeaderWidth")"
+										height="$info.height"
+										key="$info.key"/>
+									<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+										<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font/>
+									</textElement>
+									<textFieldExpression   class="java.lang.String"><![CDATA[$V$curlyOpen_$info.attributeName$curlyClose_]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents mode="Transparent">
+								<box></box>
+								<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+									<reportElement
+										x="0"
+										y="0"
+										width="$reportParams.get("crosstabHeaderWidth")"
+										height="$info.height"
+										key="textField"/>
+									<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+										<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font/>
+									</textElement>
+									<textFieldExpression   class="java.lang.String"><![CDATA["$info.attributeName total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					#end
+					#end
+					#foreach($info in $infos)
+					#if($info.columnGroup == 'true')
+					#set ($lastName = 'lastName')
+					<columnGroup name="$info.attributeName" height="$info.height" totalPosition="End" headerPosition="Center">
+						<bucket>
+							<bucketExpression class="java.lang.String"><![CDATA[$F$curlyOpen_$info.attributeName$curlyClose_]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents mode="Transparent">
+								<box></box>
+								<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+									<reportElement
+										x="0"
+										y="0"
+										width="$info.crosstabCellWidth"
+										height="$info.height"
+										key="textField"/>
+									<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+										<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font/>
+									</textElement>
+									<textFieldExpression   class="java.lang.String"><![CDATA[$V$curlyOpen_$lastName$curlyClose_]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents mode="Transparent">
+								<box></box>
+								<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+									<reportElement
+										x="0"
+										y="0"
+										width="$info.crosstabCellWidth"
+										height="$info.height"
+										key="textField"/>
+									<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+										<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+										<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font/>
+									</textElement>
+									<textFieldExpression   class="java.lang.String"><![CDATA["$lastName total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					#end
+					#end
+					#set($id='id')
+					<measure name="id_Count" class="java.lang.Long" calculation="Count">
+						<measureExpression><![CDATA[$F$curlyOpen_$id$curlyClose_]]></measureExpression>
+					</measure>
+					#foreach($info in $infos)
+					#if($info.columnGroup == 'true')
+					#set($id_Count='id_Count')
+					<crosstabCell width="$info.crosstabCellWidth" height="30">
+						<cellContents mode="Transparent">
+							<box></box>
+							<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+								<reportElement
+									x="0"
+									y="0"
+									width="$info.crosstabCellWidth"
+									height="$info.height"
+									key="textField"/>
+								<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+									<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font/>
+								</textElement>
+								<textFieldExpression   class="java.lang.Long"><![CDATA[$V$curlyOpen_$id_Count$curlyClose_]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					#end
+					#end
+					#foreach($info in $infos)
+					#if($info.rowGroup == 'true')
+					<crosstabCell width="$info.crosstabCellWidth" height="30" columnTotalGroup="$lastName">
+						<cellContents mode="Transparent">
+							<box></box>
+							<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+								<reportElement
+									x="0"
+									y="0"
+									width="$info.crosstabCellWidth"
+									height="$info.height"
+									key="textField"/>
+								<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+									<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font/>
+								</textElement>
+								<textFieldExpression   class="java.lang.Long"><![CDATA[$V$curlyOpen_$id_Count$curlyClose_]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					#end
+					#end
+					#foreach($info in $infos)
+					#if($info.columnGroup == 'true')
+					<crosstabCell width="$info.crosstabCellWidth" height="$info.height" rowTotalGroup="firstName">
+						<cellContents mode="Transparent">
+							<box></box>
+							<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+								<reportElement
+									x="0"
+									y="0"
+									width="$info.crosstabCellWidth"
+									height="$info.height"
+									key="textField"/>
+								<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+									<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font/>
+								</textElement>
+								<textFieldExpression   class="java.lang.Long"><![CDATA[$V$curlyOpen_$id_Count$curlyClose_]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="$info.crosstabCellWidth" height="$info.height" rowTotalGroup="firstName" columnTotalGroup="lastName">
+						<cellContents mode="Transparent">
+							<box></box>
+							<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+								<reportElement
+									x="0"
+									y="0"
+									width="$info.crosstabCellWidth"
+									height="$info.height"
+									key="textField"/>
+								<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+									<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+									<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font/>
+								</textElement>
+							<textFieldExpression   class="java.lang.Long"><![CDATA[$V$curlyOpen_$id_Count$curlyClose_]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					#end
+					#end
+					<whenNoDataCell>						
+						<cellContents mode="Transparent">
+							<box></box>
+						</cellContents>
+					</whenNoDataCell>					
+				</crosstab>
+			</band>
+		</summary>
+</jasperReport>

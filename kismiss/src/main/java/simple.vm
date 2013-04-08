@@ -1,0 +1,1378 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="$reportParams.get("reportName")"
+#if($reportParams.get("columnCount"))
+		 columnCount="$reportParams.get("columnCount")"		 
+#else
+		 columnCount="1"
+#end
+		 printOrder="$reportParams.get("printOrder")"		 
+		 orientation="$reportParams.get("orientation")"
+		 pageWidth="$reportParams.get("pageWidth")"
+		 pageHeight="$reportParams.get("pageHeight")"
+		 columnWidth="$reportParams.get("columnWidth")"
+		 columnSpacing="$reportParams.get("columnSpacing")"
+		 leftMargin="$reportParams.get("leftMargin")"
+		 rightMargin="$reportParams.get("rightMargin")"
+		 topMargin="$reportParams.get("rightMargin")"
+		 bottomMargin="$reportParams.get("bottomMargin")"
+		 whenNoDataType="$reportParams.get("whenNoDataType")"
+		 isFloatColumnFooter="$reportParams.get("isFloatColumnFooter")"
+		 isTitleNewPage="$reportParams.get("isTitleNewPage")"
+		 isSummaryNewPage="$reportParams.get("isSummaryNewPage")"
+#if(!$reportParams.get("isIgnorePagination"))
+	#if($reportParams.get("reportType") == 'xls')
+		#if($reportParams.get("isIgnorePaginationXls"))
+			#set($showPage = 'true')
+		#else
+			#set($showPage = 'false')
+		#end
+	#else
+		#set($showPage = 'false')
+	#end
+#else
+	#set($showPage = 'true')
+#end
+		 isIgnorePagination="$showPage"
+	>
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	
+#foreach($style in $styles)
+		<style 
+		name="$style.name"
+		isDefault="$style.default"
+#if($style.pen != 'None')
+				pen="$style.pen"
+#end
+#if($style.foreColor != '')
+				forecolor="$style.foreColor"
+#end
+#if($style.backColor != '')
+				backcolor="$style.backColor"
+#end
+#if($style.scaleImage != 'None')
+				scaleImage="$style.scaleImage"
+#end
+				hAlign="$style.hAlign"
+				vAlign="$style.vAlign"
+#if($style.border != 'None')
+				border="$style.border"
+#end
+#if($style.borderColor != '')
+				borderColor="$style.borderColor"
+#end
+#if($style.topBorder != 'None')
+				topBorder="$style.topBorder"
+#end
+#if($style.topBorderColor != '')
+				topBorderColor="$style.topBorderColor"
+#end
+#if($style.topPadding > -1)
+				topPadding="$style.topPadding"
+#end
+#if($style.leftBorder != 'None')
+				leftBorder="$style.leftBorder"
+#end
+#if($style.leftBorderColor != '')
+				leftBorderColor="$style.leftBorderColor"
+#end
+#if($style.leftPadding > -1)
+				leftPadding="$style.leftPadding"
+#end
+#if($style.bottomBorder != 'None')
+				bottomBorder="$style.bottomBorder"
+#end
+#if($style.bottomBorderColor != '')
+				bottomBorderColor="$style.bottomBorderColor"
+#end
+#if($style.bottomPadding > -1)
+				bottomPadding="$style.bottomPadding"
+#end
+#if($style.rightBorder != 'None')
+				rightBorder="$style.rightBorder"
+#end
+#if($style.rightBorderColor != '')
+				rightBorderColor="$style.rightBorderColor"
+#end
+#if($style.rightPadding > -1)
+				rightPadding="$style.rightPadding"
+#end
+#if($style.rotation != 'None')
+				rotation="$style.rotation"
+#end
+#if($style.lineSpace != 'None')
+				lineSpacing="$style.lineSpace"
+#end
+#if($style.fontName != 'None')
+				fontName="$style.fontName"
+#end
+#if($style.fontSize > -1)
+				fontSize="$style.fontSize"
+#end
+#if($style.bold != 'false')
+				isBold="$style.bold"
+#end
+#if($style.italic != 'false')
+				isItalic="$style.italic"
+#end
+#if($style.underline != 'false')
+				isUnderline="$style.underline"
+#end
+#if($style.strikeThrough != 'false')
+				isStrikeThrough="$style.strikeThrough"
+#end
+#if($style.pdfFontName != 'None')
+				pdfFontName="$style.pdfFontName"
+#end
+#if($style.pdfEncoding != '')
+				pdfEncoding="$style.pdfEncoding"
+#end
+#if($style.pdfEmbedded != 'false')
+				isPdfEmbedded="$style.pdfEmbedded"
+#end
+#if($style.pattern != '')
+				pattern="$style.pattern"
+#end
+#if($style.blankWhenNull != 'false')
+				isBlankWhenNull="$style.blankWhenNull"
+#end
+				markup="styled"
+				mode="Opaque"
+		 >	
+#foreach($conditionalStyle in $style.conditionalStyleInfos)
+		<conditionalStyle>
+#if($conditionalStyle.conditionalExpression != '')
+			<conditionExpression><![CDATA[$conditionalStyle.conditionalExpression]]></conditionExpression>
+#end
+			<style 
+				style="$style.name"
+				isDefault="$conditionalStyle.default"
+				mode="$conditionalStyle.mode" 
+#if($conditionalStyle.foreColor != '')
+				forecolor="$conditionalStyle.foreColor"
+#end
+#if($conditionalStyle.backColor != '')
+				backcolor="$conditionalStyle.backColor"
+#end
+#if($conditionalStyle.styledText != 'false')
+				isStyledText="$conditionalStyle.styledText"
+#end				
+#if($conditionalStyle.pen != 'None')
+				pen="$conditionalStyle.pen"
+#end
+#if($conditionalStyle.scaleImage != 'None')
+				scaleImage="$conditionalStyle.scaleImage"
+#end
+				hAlign="$conditionalStyle.hAlign"
+				vAlign="$conditionalStyle.vAlign"
+#if($conditionalStyle.border != 'None')
+				border="$conditionalStyle.border"
+#end
+#if($conditionalStyle.borderColor != '')
+				borderColor="$conditionalStyle.borderColor"
+#end
+#if($conditionalStyle.topBorder != 'None')
+				topBorder="$conditionalStyle.topBorder"
+#end
+#if($conditionalStyle.topBorderColor != '')
+				topBorderColor="$conditionalStyle.topBorderColor"
+#end
+#if($conditionalStyle.topPadding > -1)
+				topPadding="$conditionalStyle.topPadding"
+#end
+#if($conditionalStyle.leftBorder != 'None')
+				leftBorder="$conditionalStyle.leftBorder"
+#end
+#if($conditionalStyle.leftBorderColor != '')
+				leftBorderColor="$conditionalStyle.leftBorderColor"
+#end
+#if($conditionalStyle.leftPadding > -1)
+				leftPadding="$conditionalStyle.leftPadding"
+#end
+#if($conditionalStyle.bottomBorder != 'None')
+				bottomBorder="$conditionalStyle.bottomBorder"
+#end
+#if($conditionalStyle.bottomBorderColor != '')
+				bottomBorderColor="$conditionalStyle.bottomBorderColor"
+#end
+#if($conditionalStyle.bottomPadding > -1)
+				bottomPadding="$conditionalStyle.bottomPadding"
+#end
+#if($conditionalStyle.rightBorder != 'None')
+				rightBorder="$conditionalStyle.rightBorder"
+#end
+#if($conditionalStyle.rightBorderColor != '')
+				rightBorderColor="$conditionalStyle.rightBorderColor"
+#end
+#if($conditionalStyle.rightPadding > -1)
+				rightPadding="$conditionalStyle.rightPadding"
+#end
+#if($conditionalStyle.rotation != 'None')
+				rotation="$conditionalStyle.rotation"
+#end
+#if($conditionalStyle.lineSpace != 'None')
+				lineSpacing="$conditionalStyle.lineSpace"
+#end
+#if($conditionalStyle.fontName != 'None')
+				fontName="$conditionalStyle.fontName"
+#end
+#if($conditionalStyle.fontSize > -1)
+				fontSize="$conditionalStyle.fontSize"
+#end
+#if($conditionalStyle.bold != 'false')
+				isBold="$conditionalStyle.bold"
+#end
+#if($conditionalStyle.italic != 'false')
+				isItalic="$conditionalStyle.italic"
+#end
+#if($conditionalStyle.underline != 'false')
+				isUnderline="$conditionalStyle.underline"
+#end
+#if($conditionalStyle.strikeThrough != 'false')
+				isStrikeThrough="$conditionalStyle.strikeThrough"
+#end
+#if($conditionalStyle.pdfFontName != 'None')
+				pdfFontName="$conditionalStyle.pdfFontName"
+#end
+#if($conditionalStyle.pdfEncoding != '')
+				pdfEncoding="$conditionalStyle.pdfEncoding"
+#end
+#if($conditionalStyle.pdfEmbedded != 'false')
+				isPdfEmbedded="$conditionalStyle.pdfEmbedded"
+#end
+#if($conditionalStyle.pattern != '')
+				pattern="$conditionalStyle.pattern"
+#end
+#if($conditionalStyle.blankWhenNull != 'false')
+				isBlankWhenNull="$conditionalStyle.blankWhenNull"
+#end
+				markup="styled"
+				>
+				
+				<box>					
+					<topPen lineWidth="$conditionalStyle.topLineWidth" 
+#if($conditionalStyle.topLineColor !='')
+						lineColor="$conditionalStyle.topLineColor"
+#end
+					/>
+					<leftPen lineWidth="$conditionalStyle.leftLineWidth" 
+#if($conditionalStyle.leftLineColor !='')					
+						lineColor="$conditionalStyle.leftLineColor"
+#end					
+					/>
+					<bottomPen lineWidth="$conditionalStyle.bottomLineWidth" 
+#if($conditionalStyle.bottomLineColor !='')
+						lineColor="$conditionalStyle.bottomLineColor"
+#end						
+					/>
+					<rightPen lineWidth="$conditionalStyle.rightLineWidth"
+#if($conditionalStyle.rightLineColor !='')
+						lineColor="$conditionalStyle.rightLineColor"
+#end
+					/>
+				</box>
+			</style>
+		</conditionalStyle>
+#end
+	</style>
+#end
+	<parameter name="BACKGROUND" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TITLE" isForPrompting="false" class="java.lang.String"/>
+
+#set ($curlyOpen_ = '{')
+#set ($curlyClose_ = '}')
+#set ($volumnPattern = '#,##0.00')
+#set ($F = '$F')
+#set ($V = '$V')
+#foreach($info in $infos)
+	<field name="$info.attributeName" class="$info.type">	
+		<fieldDescription><![CDATA[$info.attributeName]]></fieldDescription>
+	</field>
+#end
+#set($NO = '')
+#foreach($info in $infos)
+#if($info.recordNumber)
+#if($info.resetWhenGrouped)
+	#set($NO = 'NO' + $info.attributeName)
+	<variable name="$NO" class="java.lang.Integer" resetType="Group" resetGroup="$info.resetGroupName" calculation="Count">
+		<variableExpression><![CDATA[$V$curlyOpen_$NO$curlyClose_]]></variableExpression>
+	</variable>
+#else
+	#set($NO = 'NO')
+	<variable name="NO" class="java.lang.Integer" resetType="Report" calculation="Count">
+		<variableExpression><![CDATA[$V$curlyOpen_$NO$curlyClose_]]></variableExpression>
+	</variable>
+#end
+#end
+#end
+
+
+#foreach($calculation in $calculations)
+	#if($calculation.attribute != "")
+		<variable name="$calculation.calName" class="$calculation.dataType" resetType="Report" calculation="$calculation.calculationType">
+			<variableExpression><![CDATA[$F$curlyOpen_$calculation.attribute$curlyClose_]]></variableExpression>
+		</variable>
+	#end
+#end
+
+#foreach($group in $groups)
+#set ($F = '$F')
+#foreach($groupIn in $group.groupCals)
+	#if($groupIn.attribute != "")
+		<variable name="$group.attributeName$groupIn.calGroupName" class="$groupIn.dataType" resetType="Group" resetGroup="$group.attributeName" calculation="$groupIn.calculationType">
+			<variableExpression><![CDATA[$F$curlyOpen_$groupIn.attribute$curlyClose_]]></variableExpression>
+		</variable>
+	#end
+#end
+#end
+
+#foreach($group in $groups)
+#set ($F = '$F')
+	<group  name="$group.attributeName" >
+			<groupExpression><![CDATA[$F$curlyOpen_$group.attributeName$curlyClose_]]></groupExpression>
+			<groupHeader>
+			<band height="$group.height"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="$group.xValue"
+						y="$group.yValue"		
+#if($group.width > 0)
+		 				width="$group.width"
+#else
+		 				width="$reportParams.get("columnWidth")"
+#end		
+						height="$group.height"
+						mode="$group.colorMode"
+						backcolor="$group.backColor"
+						key="textField"						
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="$group.leftPadding">			
+						<topPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>		
+						<leftPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>
+						<bottomPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>
+						<rightPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>
+					</box>
+					<textElement verticalAlignment="$group.verticalAlignment">
+						<font fontName="$group.fontType" pdfFontName="Helvetica-Bold" size="$group.fontSize" isBold="$group.bold"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F$curlyOpen_$group.attributeName$curlyClose_]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+#if($group.groupCals)
+			<groupFooter>
+			<band height="$group.height"  isSplitAllowed="true" >
+#set($widthValue = 0)
+#set($calculationWord = '')
+#set ($xLeftValue = 0)
+			#foreach($groupIn in $group.groupCals)
+				#if($groupIn.attribute != "")
+					#set($V = '$V')
+					#set($calculationWord = $calculationWord + " [ " + $groupIn.calculationType + " ] ")
+					<textField isStretchWithOverflow="true" pattern="$groupIn.pattern" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+							<reportElement
+								x="$groupIn.xValue"
+								y="$groupIn.yValue"
+								width="$groupIn.width"
+								height="$group.height"
+								mode="$group.colorMode"
+								backcolor="$group.backColor"
+								key="textField"/>
+							<box leftPadding="1" rightPadding="2">					
+								<pen lineWidth="$groupIn.lineWidth"/>
+								<topPen lineWidth="$groupIn.lineWidth" lineStyle="$groupIn.lineStyle"/>
+								<leftPen lineWidth="$groupIn.lineWidth"/>
+								<bottomPen lineWidth="$groupIn.lineWidth" lineStyle="$groupIn.lineStyle"/>
+								<rightPen lineWidth="$groupIn.lineWidth" lineStyle="$groupIn.lineStyle"/>
+							</box>
+							<textElement textAlignment="$groupIn.horizontalAlignment" verticalAlignment="$groupIn.verticalAlignment">
+								<font fontName="$groupIn.fontType" size="$groupIn.fontSize" isBold="$groupIn.bold"/>
+							</textElement>
+						<textFieldExpression class="$groupIn.dataType"><![CDATA[$V$curlyOpen_$group.attributeName$groupIn.calGroupName$curlyClose_]]></textFieldExpression>
+						</textField>
+#else
+#if($groupIn.xValue < $group.xLeftest)
+#set($widthValue = $widthValue + $groupIn.width)
+#else		
+						<staticText>
+							<reportElement							
+								x="$groupIn.xValue"							
+								y="0"							
+								width="$groupIn.width"
+								height="$group.height"
+								mode="$group.colorMode"
+								backcolor="$group.backColor"
+								key="staticText-18"/>
+							<box>					
+								<topPen lineWidth="$groupIn.lineWidth" lineStyle="$groupIn.lineStyle"/>
+								<leftPen lineWidth="$groupIn.lineWidth" lineStyle="$groupIn.lineStyle"/>
+								<bottomPen lineWidth="$groupIn.lineWidth" lineStyle="$groupIn.lineStyle"/>
+								<rightPen lineWidth="$groupIn.lineWidth" lineStyle="$groupIn.lineStyle"/>
+							</box>
+							<textElement textAlignment="$groupIn.labelHorizontalAlignment" verticalAlignment="$groupIn.verticalAlignment">
+								<font fontName="$groupIn.fontType" pdfFontName="Helvetica" size="$groupIn.fontSize" isBold="$groupIn.bold"/>
+							</textElement>
+							<text></text>
+						</staticText>
+#end
+#end
+#end
+
+						
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+							<reportElement
+								x="0"
+								y="0"
+								width="$widthValue"
+								height="$group.height"
+								mode="$group.colorMode"
+								backcolor="$group.backColor"
+								key="textField"/>
+							<box>					
+								<topPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>
+								<leftPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>
+								<bottomPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>
+								<rightPen lineWidth="$group.lineWidth" lineStyle="$group.lineStyle"/>
+							</box>
+							<textElement textAlignment="$group.labelHorizontalAlignment" verticalAlignment="$group.verticalAlignment">
+								<font fontName="$group.fontType" size="$group.fontSize" isBold="$group.bold"/>
+							</textElement>
+						#if($group.calculationPrintType == 'GroupExpression')
+						<textFieldExpression class="java.lang.String"><![CDATA[$F$curlyOpen_$group.attributeName$curlyClose_]]></textFieldExpression>
+						#elseif($group.calculationPrintType == 'Total')
+						<textFieldExpression class="java.lang.String"><![CDATA[ "TOTAL " + $F$curlyOpen_$group.attributeName$curlyClose_]]></textFieldExpression>
+						#else
+						<textFieldExpression class="java.lang.String"><![CDATA["$calculationWord" + " "+ $F$curlyOpen_$group.attributeName$curlyClose_]]></textFieldExpression>
+						#end
+						</textField>
+			</band>
+			</groupFooter>
+#end
+		</group>
+		
+#end
+		#foreach($design in $designs)
+				#if($design.name == 'background')		
+		<background>
+			<band height="$reportParams.get("columnWidth")"  isSplitAllowed="true" >
+				<image  vAlign="Middle" hAlign="Center" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="$design.x"
+						y="$design.y"
+						width="$design.width"
+						height="$design.height"
+						key="$design.key"
+						positionType="FixRelativeToBottom"
+						isPrintInFirstWholeBand="true"/>
+					<box></box>
+					#set($P = '$P')
+					#set($BACKGROUND = 'BACKGROUND')
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[$P$curlyOpen_$BACKGROUND$curlyClose_]]></imageExpression>
+				</image>
+				
+			</band>
+		</background>
+				#end
+		#end
+
+		<title>
+			#if($reportParams.get("isTitleEveryPage")=='false')
+				#set($titleTall = $reportParams.get("titleHeight"))
+				#if($subTitles)
+				#set($titleTall = $titleTall + $subTitles.size() * $subTitleInfo.height)
+				#else
+				#set($titleTall = $reportParams.get("titleHeight"))
+				#end
+				#if($headerParams.get("isColumnHeaderEveryPage")=="false")
+				#set($titleTall = $titleTall + $headerParams.get("columnHeaderHeight"))	
+				#end
+				<band height="$titleTall"  isSplitAllowed="true" >				
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+#if($reportParams.get("columnAutoSize"))
+						width="$reportParams.get("finalWidth")"
+#else
+						width="$reportParams.get("columnWidth")"
+#end
+						height="$reportParams.get("titleHeight")"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="$reportParams.get("titleAlignment")">
+						<font pdfFontName="$reportParams.get("titlePdfFontName")" size="$reportParams.get("titleFontSize")" isBold="$reportParams.get("titleIsBold")"/>
+					</textElement>
+					#set($P = '$P')
+					#set($TITLE = 'TITLE')
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$P$curlyOpen_$TITLE$curlyClose_]]>
+					</textFieldExpression>
+				</textField>	
+				#set($heightSub = 0)
+				#foreach($subTitle in $subTitles)
+				#set($heightSub = $heightSub + $subTitleInfo.height)
+				#set($fieldWidth = $reportParams.get("finalWidth") / $subTitle.flag.length() )
+				#set($xWidth = 0)
+				#if($subTitle.flag.contains("1"))				
+					<staticText>
+						<reportElement
+							x="0"
+							y="$heightSub"
+							width="$fieldWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$subTitle.leftContent]]></text>
+					</staticText>
+				#end
+				#set($xWidth = $fieldWidth)
+				#if($subTitle.flag.contains("2"))
+					<staticText>
+						<reportElement
+							x="$xWidth"
+							y="$heightSub"
+							width="$fieldWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle" textAlignment="Center">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$subTitle.centerContent]]></text>
+					</staticText>		
+					#set($xWidth = $xWidth + $fieldWidth)		
+				#end
+				
+				#if($subTitle.flag.contains("3"))
+					#set($xWidth = $xWidth + $subTitle.rightContentPadding)
+					#set($rightWidth = $fieldWidth - $subTitle.rightContentPadding)
+					<staticText>
+						<reportElement
+							x="$xWidth"
+							y="$heightSub"
+							width="$rightWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle" textAlignment="$subTitle.horizontalAlignment">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$subTitle.rightContent]]></text>
+					</staticText>
+				#end
+				
+				
+				#if(!$subTitle.flag)		
+				<staticText>
+					<reportElement
+						x="0"
+						y="$heightSub"
+						width="$reportParams.get("finalWidth")"
+						height="$subTitleInfo.height"
+						key="staticText-1"/>
+					<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+					</textElement>
+				<text><![CDATA[$subTitle]]></text>
+				</staticText>
+				#end
+				#end	
+				#set($heightSub = $heightSub + $subTitleInfo.height)
+				#if($headerParams.get("isColumnHeaderEveryPage")=="false")
+				#foreach($info in $columnHeaders)
+				#set($yFake = $heightSub + $info.y)
+					<staticText>
+						<reportElement
+							x="$info.x"
+							y="$yFake"
+							width="$info.width"
+							height="$info.height"
+							mode="$info.colorMode"
+							backcolor="$info.bgColor"
+							key="$info.key"
+							isPrintWhenDetailOverflows="true"
+							stretchType="RelativeToTallestObject"/>
+							
+						<box leftPadding="2">					
+							<pen lineWidth="$info.lineWidth" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<topPen lineWidth="$headerParams.get("headerTopLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<leftPen lineWidth="$headerParams.get("headerLeftLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<bottomPen lineWidth="$headerParams.get("headerBottomLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<rightPen lineWidth="$headerParams.get("headerRightLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+						</box>
+						<textElement textAlignment="$info.whenHeaderHAlignment" verticalAlignment="$info.verticalAlignment">
+						#if($headerParams.get("columnHeaderBold"))
+							<font fontName="$headerParams.get("fontName")" pdfFontName="Helvetica-Bold" size="$headerParams.get("fontSize")" isBold="$headerParams.get("columnHeaderBold")"/>
+						#else
+							<font fontName="$headerParams.get("fontName")" size="$headerParams.get("fontSize")"/>
+						#end
+						</textElement>
+						<text><![CDATA[$info.label]]></text>
+					</staticText>
+				#end	
+				#end	
+			</band>	
+			#end
+			
+		</title>
+		<pageHeader>
+			#if($reportParams.get("isTitleEveryPage")=='true')
+			#set($titleTall = $reportParams.get("titleHeight"))
+			#if($subTitles)
+			#set($titleTall = $titleTall + $subTitles.size() * $subTitleInfo.height)
+			#else
+			#set($titleTall = $subTitleInfo.height)
+			#end
+			<band height="$titleTall"  isSplitAllowed="true" >				
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="$reportParams.get("finalWidth")"
+						height="$subTitleInfo.height"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="$reportParams.get("titleAlignment")">
+						<font pdfFontName="$reportParams.get("titlePdfFontName")" size="$reportParams.get("titleFontSize")" isBold="$reportParams.get("titleIsBold")"/>
+					</textElement>
+					#set($P = '$P')
+					#set($TITLE = 'TITLE')
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$P$curlyOpen_$TITLE$curlyClose_]]>
+					</textFieldExpression>
+				</textField>
+				#set($heightSub = 0)
+				#foreach($subTitle in $subTitles)
+				#set($heightSub = $heightSub + 25)
+				#set($fieldWidth = $reportParams.get("finalWidth") / $subTitle.flag.length() )
+				#set($xWidth = 0)
+				#if($subTitle.flag.contains("1"))				
+					<staticText>
+						<reportElement
+							x="0"
+							y="$heightSub"
+							width="$fieldWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$subTitle.leftContent]]></text>
+					</staticText>
+				#end
+				#set($xWidth = $fieldWidth)
+				#if($subTitle.flag.contains("2"))
+					<staticText>
+						<reportElement
+							x="$xWidth"
+							y="$heightSub"
+							width="$fieldWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle" textAlignment="Center">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$subTitle.centerContent]]></text>
+					</staticText>		
+					#set($xWidth = $xWidth + $fieldWidth)		
+				#end
+				
+				#if($subTitle.flag.contains("3"))
+					#set($xWidth = $xWidth + $subTitle.rightContentPadding)
+					#set($rightWidth = $fieldWidth - $subTitle.rightContentPadding)
+					<staticText>
+						<reportElement
+							x="$xWidth"
+							y="$heightSub"
+							width="$rightWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle" textAlignment="$subTitle.horizontalAlignment">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$subTitle.rightContent]]></text>
+					</staticText>
+				#end
+				
+				
+				#if(!$subTitle.flag)		
+				<staticText>
+					<reportElement
+						x="0"
+						y="$heightSub"
+						width="$reportParams.get("finalWidth")"
+						height="25"
+						key="staticText-1"/>
+					<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+					</textElement>
+				<text><![CDATA[$subTitle]]></text>
+				</staticText>
+				#end
+				#end			
+			</band>
+			#end
+		</pageHeader>
+		#if($reportParams.get("isTitleEveryPage"))
+		<columnHeader>
+			<band height="$headerParams.get("columnHeaderHeight")"  isSplitAllowed="true" >							
+				#foreach($info in $columnHeaders)
+					<staticText>
+						<reportElement
+							x="$info.x"
+							y="$info.y"
+							width="$info.width"
+							height="$info.height"
+							mode="$info.colorMode"
+							backcolor="$info.bgColor"
+							key="$info.key"
+							isPrintWhenDetailOverflows="true"
+							stretchType="RelativeToTallestObject"/>
+							
+						<box leftPadding="2">					
+							<pen lineWidth="$info.lineWidth" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<topPen lineWidth="$headerParams.get("headerTopLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<leftPen lineWidth="$headerParams.get("headerLeftLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<bottomPen lineWidth="$headerParams.get("headerBottomLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<rightPen lineWidth="$headerParams.get("headerRightLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+						</box>
+						<textElement textAlignment="$info.whenHeaderHAlignment" verticalAlignment="$info.verticalAlignment">
+						#if($headerParams.get("columnHeaderBold"))
+							<font fontName="$headerParams.get("fontName")" pdfFontName="Helvetica-Bold" size="$headerParams.get("fontSize")" isBold="$headerParams.get("columnHeaderBold")"/>
+						#else
+							<font fontName="$headerParams.get("fontName")" size="$headerParams.get("fontSize")"/>
+						#end
+						</textElement>
+						<text><![CDATA[$info.label]]></text>
+					</staticText>
+				#end		
+			</band>
+		</columnHeader>
+		#else
+		#if($headerParams.get("isColumnHeaderEveryPage"))
+		<columnHeader>
+			<band height="$headerParams.get("columnHeaderHeight")"  isSplitAllowed="true" >							
+				#foreach($info in $columnHeaders)
+					<staticText>
+						<reportElement
+							x="$info.x"
+							y="$info.y"
+							width="$info.width"
+							height="$info.height"
+							mode="$info.colorMode"
+							backcolor="$info.bgColor"
+							key="$info.key"
+							isPrintWhenDetailOverflows="true"
+							stretchType="RelativeToTallestObject"/>
+							
+						<box leftPadding="2">					
+							<pen lineWidth="$info.lineWidth" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<topPen lineWidth="$headerParams.get("headerTopLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<leftPen lineWidth="$headerParams.get("headerLeftLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<bottomPen lineWidth="$headerParams.get("headerBottomLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+							<rightPen lineWidth="$headerParams.get("headerRightLineWidth")" lineStyle="$headerParams.get("headerLineStyle")"/>
+						</box>
+						<textElement textAlignment="$info.whenHeaderHAlignment" verticalAlignment="$info.verticalAlignment">
+						#if($headerParams.get("columnHeaderBold"))
+							<font fontName="$headerParams.get("fontName")" pdfFontName="Helvetica-Bold" size="$headerParams.get("fontSize")" isBold="$headerParams.get("columnHeaderBold")"/>
+						#else
+							<font fontName="$headerParams.get("fontName")" size="$headerParams.get("fontSize")"/>
+						#end
+						</textElement>
+						<text><![CDATA[$info.label]]></text>
+					</staticText>
+				#end		
+			</band>
+		</columnHeader>
+		#end
+		#end
+		<detail>
+			<band height="$headerParams.get("detailHeight")"  isSplitAllowed="true" >
+			#set($index = 1)
+#if($headerParams.get("oddEvenColor") != '')
+				#foreach($info in $infos)
+#if($info.showInDetail)
+				#if($info.pattern != '')
+					<textField isStretchWithOverflow="$info.overFlow" isBlankWhenNull="$info.blankWhenNull" evaluationTime="$info.evaluationTime" hyperlinkType="$info.hyperlinkType" pattern="$info.pattern"  hyperlinkTarget="$info.hyperlinkTarget" >
+				#else
+					<textField isStretchWithOverflow="$info.overFlow" isBlankWhenNull="$info.blankWhenNull" evaluationTime="$info.evaluationTime" hyperlinkType="$info.hyperlinkType"  hyperlinkTarget="$info.hyperlinkTarget" >
+				#end			
+					#set($intValue = '.intValue()')		
+						<reportElement
+#if($info.style != '')
+							style="$info.style"
+#end
+							x="$info.x"
+							y="$info.y"
+							width="$info.width"
+							#if($info.height > 0)
+							height="$info.height"
+							#else
+							height="$reportParams.get("detailHeight")"
+							#end
+							key="textField-$index"
+							mode="$info.colorMode"
+							#if($info.bgColor != '')
+							backcolor="$info.bgColor"
+							#end
+							#if($info.foreColor != '')
+							forecolor="$info.foreColor"
+							#end
+							#if($info.printRepeatedValues != 'true')
+							isPrintRepeatedValues="$info.printRepeatedValues"
+							#end
+							isPrintWhenDetailOverflows="$info.printWhenDetailOverFlow"
+							isRemoveLineWhenBlank="$info.removeLineWhenBlank"
+							stretchType="RelativeToTallestObject">
+							#if($info.printWhenExpression != "")
+							<printWhenExpression><![CDATA[new Boolean( $V$curlyOpen_$NO$curlyClose_$intValue % 2 ==0 ) && ($info.printWhenExpression)]]></printWhenExpression>
+							#else
+							<printWhenExpression><![CDATA[new Boolean( $V$curlyOpen_$NO$curlyClose_$intValue % 2 ==0 )]]></printWhenExpression>
+							#end
+						</reportElement>
+						<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+							<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+						</box>
+						<textElement textAlignment="$info.horizontalAlignment" verticalAlignment="$info.verticalAlignment">
+							<font fontName="$info.font" size="$info.fontSize" isBold="$info.bold"
+								isItalic="$info.italic" isUnderline="$info.underLine"
+								isStrikeThrough="$info.strikeThrough"/>
+						</textElement>
+						#set($F = '$F')
+						#if($info.recordNumber == 'false')
+						#if($info.textFieldExpression != "")
+						<textFieldExpression class="$info.type">
+							<![CDATA[$info.textFieldExpression]]>
+						</textFieldExpression>
+						#else
+						<textFieldExpression class="$info.type">
+							<![CDATA[$F$curlyOpen_$info.attributeName$curlyClose_]]>
+						</textFieldExpression>
+						#end
+						#else				
+						<textFieldExpression    class="java.lang.Integer">
+							<![CDATA[new Integer($V$curlyOpen_$NO$curlyClose_$intValue + 1)]]>
+						</textFieldExpression>
+						#end
+					</textField>
+					
+					#if($info.pattern != '')
+					<textField isStretchWithOverflow="$info.overFlow" isBlankWhenNull="$info.blankWhenNull" evaluationTime="$info.evaluationTime" hyperlinkType="$info.hyperlinkType" pattern="$info.pattern"  hyperlinkTarget="$info.hyperlinkTarget" >
+				#else
+					<textField isStretchWithOverflow="$info.overFlow" isBlankWhenNull="$info.blankWhenNull" evaluationTime="$info.evaluationTime" hyperlinkType="$info.hyperlinkType"  hyperlinkTarget="$info.hyperlinkTarget" >
+				#end			
+					#set($intValue = '.intValue()')		
+						<reportElement
+#if($info.style != '')
+							style="$info.style"
+#end
+							x="$info.x"
+							y="$info.y"
+							width="$info.width"
+							#if($info.height > 0)
+							height="$info.height"
+							#else
+							height="$reportParams.get("detailHeight")"
+							#end
+							key="textField-$index"
+							mode="$info.colorMode"
+							#if($info.printRepeatedValues != 'true')
+							isPrintRepeatedValues="$info.printRepeatedValues"
+							#end
+							backcolor="$headerParams.get("oddEvenColor")"
+							#if($info.foreColor != '')
+							forecolor="$info.foreColor"
+							#end
+							isPrintWhenDetailOverflows="$info.printWhenDetailOverFlow"
+							isRemoveLineWhenBlank="$info.removeLineWhenBlank"
+							stretchType="RelativeToTallestObject">
+							#if($info.printWhenExpression != "")
+							<printWhenExpression><![CDATA[new Boolean( $V$curlyOpen_$NO$curlyClose_$intValue % 2 ==1 ) && ($info.printWhenExpression)]]></printWhenExpression>
+							#else
+							<printWhenExpression><![CDATA[new Boolean( $V$curlyOpen_$NO$curlyClose_$intValue % 2 ==1 )]]></printWhenExpression>
+							#end
+						</reportElement>
+						<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+							<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+						</box>
+						<textElement textAlignment="$info.horizontalAlignment" verticalAlignment="$info.verticalAlignment">
+							<font fontName="$info.font" size="$info.fontSize" isBold="$info.bold"
+								isItalic="$info.italic" isUnderline="$info.underLine"
+								isStrikeThrough="$info.strikeThrough"/>
+						</textElement>
+						#set($F = '$F')
+						#if($info.recordNumber == 'false')
+						#if($info.textFieldExpression != "")
+						<textFieldExpression class="$info.type">
+							<![CDATA[$info.textFieldExpression]]>
+						</textFieldExpression>
+						#else
+						<textFieldExpression class="$info.type">
+							<![CDATA[$F$curlyOpen_$info.attributeName$curlyClose_]]>
+						</textFieldExpression>
+						#end
+						#else			
+						<textFieldExpression    class="java.lang.Integer">
+							<![CDATA[new Integer($V$curlyOpen_$NO$curlyClose_$intValue + 1)]]>
+						</textFieldExpression>
+						#end
+					</textField>
+				#set($index = $index+1)			
+				#end
+				#end
+#else
+#foreach($info in $infos)
+#if($info.showInDetail)
+				#if($info.pattern != '')
+					<textField isStretchWithOverflow="$info.overFlow" isBlankWhenNull="$info.blankWhenNull" evaluationTime="$info.evaluationTime" hyperlinkType="$info.hyperlinkType" pattern="$info.pattern"  hyperlinkTarget="$info.hyperlinkTarget" >
+				#else
+					<textField isStretchWithOverflow="$info.overFlow" isBlankWhenNull="$info.blankWhenNull" evaluationTime="$info.evaluationTime" hyperlinkType="$info.hyperlinkType"  hyperlinkTarget="$info.hyperlinkTarget" >
+				#end			
+					#set($intValue = '.intValue()')		
+						<reportElement
+#if($info.style != '')
+							style="$info.style"
+#end
+							x="$info.x"
+							y="$info.y"
+							width="$info.width"
+#if($info.height > 0)
+							height="$info.height"
+#else
+							height="$reportParams.get("detailHeight")"
+#end
+							key="textField-$index"
+							mode="$info.colorMode"
+#if($info.bgColor != '')
+							backcolor="$info.bgColor"
+#end
+#if($info.foreColor != '')
+							forecolor="$info.foreColor"
+#end
+#if($info.printRepeatedValues != 'true')
+							isPrintRepeatedValues="$info.printRepeatedValues"
+#end
+							isPrintWhenDetailOverflows="$info.printWhenDetailOverFlow"
+							isRemoveLineWhenBlank="$info.removeLineWhenBlank"
+							stretchType="RelativeToTallestObject">
+#if($info.printWhenExpression != "")
+							<printWhenExpression><![CDATA[$info.printWhenExpression]]></printWhenExpression>
+#end
+						</reportElement>
+						<box leftPadding="$info.leftPadding" rightPadding="$info.rightPadding" topPadding="$info.topPadding" bottomPadding="$info.bottomPadding">					
+							<pen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<topPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<leftPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<bottomPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+							<rightPen lineWidth="$info.lineWidth" lineStyle="$info.lineStyle"/>
+						</box>
+						<textElement textAlignment="$info.horizontalAlignment" verticalAlignment="$info.verticalAlignment">
+							<font fontName="$info.font" size="$info.fontSize" isBold="$info.bold"
+								isItalic="$info.italic" isUnderline="$info.underLine"
+								isStrikeThrough="$info.strikeThrough"/>
+						</textElement>
+#set($F = '$F')
+#if($info.recordNumber == 'false')
+#if($info.textFieldExpression != "")
+						<textFieldExpression class="$info.type">
+							<![CDATA[$info.textFieldExpression]]>
+						</textFieldExpression>
+#else
+						<textFieldExpression class="$info.type">
+							<![CDATA[$F$curlyOpen_$info.attributeName$curlyClose_]]>
+						</textFieldExpression>
+#end
+#else				
+						<textFieldExpression    class="java.lang.Integer">
+							<![CDATA[new Integer($V$curlyOpen_$NO$curlyClose_$intValue + 1)]]>
+						</textFieldExpression>
+#end
+					</textField>
+#set($index = $index+1)			
+#end
+#end
+#end
+			</band>
+		</detail>
+#if($columnFooters.size() > 0)
+		<columnFooter>
+#if($columnFooters)
+#set($columnFooterHeight = $columnFooters.size() * $subTitleInfo.height)
+#else
+#set($columnFooterHeight = $subTitleInfo.height)
+#end
+				<band height="$columnFooterHeight"  isSplitAllowed="true" >				
+#set($heightSub = 0)
+#foreach($columnFooter in $columnFooters)
+				
+#set($fieldWidth = $reportParams.get("finalWidth") / $columnFooter.flag.length() )
+#set($xWidth = 0)
+#if($columnFooter.flag.contains("1"))				
+					<staticText>
+						<reportElement
+							x="0"
+							y="$heightSub"
+							width="$fieldWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$columnFooter.leftContent]]></text>
+					</staticText>
+#end
+#set($xWidth = $fieldWidth)
+#if($columnFooter.flag.contains("2"))
+					<staticText>
+						<reportElement
+							x="$xWidth"
+							y="$heightSub"
+							width="$fieldWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle" textAlignment="Center">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$columnFooter.centerContent]]></text>
+					</staticText>		
+#set($xWidth = $xWidth + $fieldWidth)		
+#end
+				
+#if($columnFooter.flag.contains("3"))
+#set($xWidth = $xWidth + $columnFooter.rightContentPadding)
+#set($rightWidth = $fieldWidth - $columnFooter.rightContentPadding)
+					<staticText>
+						<reportElement
+							x="$xWidth"
+							y="$heightSub"
+							width="$rightWidth"
+							height="$subTitleInfo.height"
+							key="staticText-1"/>
+						<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Middle" textAlignment="$columnFooter.horizontalAlignment">
+							<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+						</textElement>
+					<text><![CDATA[$columnFooter.rightContent]]></text>
+					</staticText>
+#end
+					
+#if(!$columnFooter.flag)		
+				<staticText>
+					<reportElement
+						x="0"
+						y="$heightSub"
+						width="$reportParams.get("finalWidth")"
+						height="$subTitleInfo.height"
+						key="staticText-1"/>
+					<box leftPadding="$subTitleInfo.leftPadding" rightPadding="$subTitleInfo.rightPadding">					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="$subTitleInfo.fontName" size="$subTitleInfo.fontSize"/>
+					</textElement>
+				<text><![CDATA[$columnFooter]]></text>
+				</staticText>
+#end
+#set($heightSub = $heightSub + $subTitleInfo.height)
+#end		
+			</band>	
+		</columnFooter>
+#end
+#if(!$reportParams.get("isIgnorePagination"))
+	#if($reportParams.get("reportType") == 'xls')
+		#if($reportParams.get("isIgnorePaginationXls"))
+			#set($showPage = 'false')
+		#else
+			#set($showPage = 'true')
+		#end
+	#else
+		#set($showPage = 'true')
+	#end
+#else
+	#set($showPage = 'false')
+#end
+#if($showPage == 'true')
+		<pageFooter>
+#set($PAGE_NUMBER='PAGE_NUMBER')
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None" hyperlinkTarget="Self" >
+#if($reportParams.get("pageNumberAlignment") == 'Right')
+#set($xPosition = $reportParams.get("columnWidth") - 40)
+#elseif($reportParams.get("pageNumberAlignment") == 'Center')
+#set($xPosition = $reportParams.get("columnWidth")/2 - 20)
+#else
+#set($xPosition = 0)
+#end
+					<reportElement
+						x="$xPosition"
+						y="2"
+						width="40"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement  textAlignment="Right">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression   class="java.lang.Integer">
+						<![CDATA[$V$curlyOpen_$PAGE_NUMBER$curlyClose_]]>
+					</textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+#end
+		<summary>
+			<band height="$headerParams.get("detailHeight")"  isSplitAllowed="true" >
+#set ($V = '$V')
+#set($lastIndex = $infos.size() - 1)
+#foreach($calculation in $calculations)
+#if($calculation.attribute == "")
+			<staticText>
+					<reportElement
+						x="$calculation.xValue"
+						y="0"
+						width="$calculation.width"
+						height="$calculation.height"
+						mode="$calculation.colorMode"
+						backcolor="$calculation.backColor"
+						key="staticText-18"/>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="$calculation.horizontalAlignment" verticalAlignment="$calculation.verticalAlignment">
+						<font fontName="$calculation.fontType" pdfFontName="Helvetica" size="$calculation.fontSize" isBold="$calculation.bold"/>
+					</textElement>
+				<text></text>
+			</staticText>
+#else
+#if($calculation.calName.startsWith($infos.get($lastIndex).attributeName))
+			<textField isStretchWithOverflow="false" pattern="$calculation.pattern" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="$calculation.xValue"
+						y="0"
+						width="$calculation.width"
+						height="$calculation.height"
+						mode="$calculation.colorMode"
+						backcolor="$calculation.backColor"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">
+						<topPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>			
+						<leftPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>		
+						<bottomPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>
+						<rightPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>
+					</box>
+					<textElement textAlignment="$calculation.horizontalAlignment" verticalAlignment="$calculation.verticalAlignment">
+						<font fontName="$calculation.fontType" pdfFontName="Helvetica" size="$calculation.fontSize" isBold="$calculation.bold"/>
+					</textElement>
+					<textFieldExpression class="$calculation.dataType">
+						<![CDATA[$V$curlyOpen_$calculation.calName$curlyClose_]]>
+					</textFieldExpression>
+				</textField>
+#else
+			<textField isStretchWithOverflow="false" pattern="$calculation.pattern" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="$calculation.xValue"
+						y="0"
+						width="$calculation.width"
+						height="$calculation.height"
+						mode="$calculation.colorMode"
+						backcolor="$calculation.backColor"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">	
+						<topPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>			
+						<leftPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>				
+						<bottomPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>	
+						<rightPen lineWidth="$calculation.lineWidth" lineStyle="$calculation.lineStyle"/>
+					</box>
+					<textElement textAlignment="$calculation.horizontalAlignment" verticalAlignment="$calculation.verticalAlignment">
+						<font fontName="$calculation.fontType" pdfFontName="Helvetica" size="$calculation.fontSize" isBold="$calculation.bold"/>
+					</textElement>
+					<textFieldExpression class="$calculation.dataType">
+						<![CDATA[$V$curlyOpen_$calculation.calName$curlyClose_]]>
+					</textFieldExpression>
+				</textField>
+#end
+#end
+#end
+#if($calculations.size() != 0)
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="$calculations.get(0).xValue"
+						mode="$calculations.get(0).colorMode"
+						backcolor="$calculations.get(0).backColor"
+						height="$calculations.get(0).height"
+						key="staticText-30"/>
+						<box leftPadding="20" topPadding="2" bottomPadding="2">	
+						<topPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>				
+						<leftPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+						<bottomPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+						<rightPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle" textAlignment="Center">
+						<font fontName="$calculations.get(0).fontType" pdfFontName="Helvetica" size="$calculations.get(0).fontSize" isBold="$calculations.get(0).bold"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+#end
+#set($count = 1)
+#set($index = $infos.size() - 1)
+#foreach($emp in $empty)		
+#if($emp.attributeName == $infos.get($index).attributeName)					
+				<staticText>
+					<reportElement
+						x="$emp.x"
+						y="$emp.y"
+						mode="Opaque"
+						width="$emp.width"
+						height="$emp.height"
+						backcolor="$emp.bgColor"
+						key="staticText-30"/>
+					<box leftPadding="20" topPadding="2" bottomPadding="2">					
+						<topPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>				
+						<leftPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+						<bottomPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+						<rightPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+#else
+				<staticText>
+					<reportElement
+						x="$emp.x"
+						y="$emp.y"
+						mode="Opaque"
+						width="$emp.width"
+						height="$emp.height"
+						backcolor="$emp.bgColor"
+						key="staticText-30"/>
+					<box leftPadding="20" topPadding="2" bottomPadding="2">	
+						<topPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>				
+						<leftPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+						<bottomPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>
+						<rightPen lineWidth="$calculations.get(0).lineWidth" lineStyle="Solid"/>				
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+#end
+
+#set($count = $count + 1)
+#end						
+				<staticText>
+						<reportElement
+							x="0"
+							y="0"
+							width="$reportParams.get("columnWidth")"
+							height="$headerParams.get("detailHeight")"
+							forecolor="#CC0000"
+							key="staticText-23">
+#set($V = '$V')
+#set($REPORT_COUNT = 'REPORT_COUNT')
+								<printWhenExpression><![CDATA[new Boolean($V$curlyOpen_$REPORT_COUNT$curlyClose_
+								.equals(new Integer(0)))]]></printWhenExpression>
+							</reportElement>
+						<box leftPadding="10" topPadding="2" bottomPadding="2">					
+							<leftPen lineWidth="0.0" lineStyle="Solid"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+						</textElement>
+					<text><![CDATA[$reportParams.get("noDataFound")]]></text>
+				</staticText>			
+			</band>
+		</summary>
+</jasperReport>

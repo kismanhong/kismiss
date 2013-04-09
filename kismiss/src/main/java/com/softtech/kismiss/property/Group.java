@@ -38,4 +38,7 @@ public abstract @interface Group {
 	public abstract HorizontalAlignment labelHorizontalAlignment() default HorizontalAlignment.Center;
 	public abstract CalculationPrintType calculationPrintType() default CalculationPrintType.GroupExpression;
 	public abstract String backColor() default "";
+	public abstract String groupLabel() default "";
+	public abstract String labelPrefix() default "";
+	public abstract String labelSuffix() default "";
 }

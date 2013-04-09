@@ -11,5 +11,15 @@ public enum CalculationType {
 	Average,
 	Highest,
 	Lowest,
-	DistinctCount
+	Count,
+	DistinctCount;
+	
+	public static boolean contains(String calculationType) {
+	    for (CalculationType c : CalculationType.values()) {
+	        if (c.name().equals(calculationType)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 }

@@ -38,6 +38,9 @@ public class GroupInfo {
 	private HorizontalAlignment horizontalAlignment;
 	private HorizontalAlignment labelHorizontalAlignment;
 	private VerticalAlignment verticalAlignment;
+	private String groupLabel;
+	private String labelPrefix;
+	private String labelSuffix;
 	
 	public GroupInfo(String attributeName){
 		this.attributeName = attributeName;
@@ -55,7 +58,7 @@ public class GroupInfo {
 	public GroupInfo(String attributeName, int bandHeight, int xValue, int yValue, int height, int width, List<CalculationInfo> groupCals, 
 			CalculationPrintType calculationPrintType, boolean bold, FontType fontType, int fontSize, int leftPadding, double lineWidth, 
 			String backColor, ColorMode colorMode, HorizontalAlignment horizontalAlignment, HorizontalAlignment labelHorizontalAlignment,
-			LineStyle lineStyle, VerticalAlignment verticalAlignment)
+			LineStyle lineStyle, VerticalAlignment verticalAlignment, String groupLabel, String labelPrefix, String labelSuffix)
 	{
 		setAttributeName(attributeName);
 		setBandHeight(bandHeight);
@@ -76,6 +79,9 @@ public class GroupInfo {
 		setLabelHorizontalAlignment(labelHorizontalAlignment);
 		setLineStyle(lineStyle);
 		setVerticalAlignment(verticalAlignment);
+		setGroupLabel(groupLabel);
+		setLabelPrefix(labelPrefix);
+		setLabelSuffix(labelSuffix);
 	}
 	
 	public String getAttributeName() {
@@ -253,6 +259,29 @@ public class GroupInfo {
 	public void setVerticalAlignment(VerticalAlignment verticalAlignment) {
 		this.verticalAlignment = verticalAlignment;
 	}
-	
+
+	public String getGroupLabel() {
+		return groupLabel;
+	}
+
+	public void setGroupLabel(String groupLabel) {
+		this.groupLabel = groupLabel;
+	}
+
+	public String getLabelPrefix() {
+		return labelPrefix;
+	}
+
+	public void setLabelPrefix(String labelPrefix) {
+		this.labelPrefix = labelPrefix;
+	}
+
+	public String getLabelSuffix() {
+		return labelSuffix;
+	}
+
+	public void setLabelSuffix(String labelSuffix) {
+		this.labelSuffix = labelSuffix;
+	}
 	
 }

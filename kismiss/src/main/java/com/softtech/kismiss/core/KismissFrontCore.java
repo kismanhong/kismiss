@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.softtech.kismiss.constant.CommonConstant;
 import com.softtech.kismiss.constant.ReportFactory;
+import com.softtech.kismiss.enumer.CalculationType;
 import com.softtech.kismiss.enumer.ColorMode;
 import com.softtech.kismiss.enumer.FontType;
 import com.softtech.kismiss.enumer.HorizontalAlignment;
@@ -664,23 +665,30 @@ public abstract class KismissFrontCore extends KismissMiddleCore {
 		try {
 			List<CalculationInfo> cals = new ArrayList<CalculationInfo>();
 			for (String string : calculations) {
-				if (string.indexOf(":") < 0)
+				String[] grpCal = string.split(":");
+				if (grpCal.length < 2 || !CalculationType.contains(grpCal[1]))
 					throw new ReportDataAccessException(ErrorHandler.getInstance()
 							.invalid(clazz.getCanonicalName(),ErrorCode.INVALID_DEFINED_CALCUTION));
-
-				String[] grpCal = string.split(":");
+				
+				String pattern = "";
+				try {
+					pattern = grpCal[2];
+				} catch (Exception e) {} // ignore
+				
 				Object[] dimention = ReportUtil.getInstance().getValues(infos, grpCal[0].trim(), group.groupBy(), clazz);
 				CalculationInfo cal = new CalculationInfo
 									( grpCal[0].trim(), dimention[4].toString(),  grpCal[1].trim(), 
 									(Integer) dimention[0], (Integer) dimention[1],(Integer) dimention[2],
-									(Integer) dimention[3], detail.lineWidth(), group.horizontalAlignment(), group.labelHorizontalAlignment());
+									(Integer) dimention[3], detail.lineWidth(), group.horizontalAlignment(), group.labelHorizontalAlignment(), 
+									StringUtils.isEmpty(pattern)?dimention[5].toString():pattern);
 				cals.add(cal);
 			}
 			groups.add(new GroupInfo(group.groupBy(), group.bandHeight(), group.x(), group.y(), group.height(),
 					0, cals, group.calculationPrintType(), group.isBold(), group.font(), group.fontSize(), 
 					group.leftPadding(), group.lineWidth() > 0? group.lineWidth() : detail.lineWidth(), group.backColor(),
 					StringUtils.isEmpty(group.backColor())?ColorMode.Transparent:ColorMode.Opaque,
-					group.horizontalAlignment(),group.labelHorizontalAlignment(), group.lineStyle(), group.verticalAlignment()));
+					group.horizontalAlignment(),group.labelHorizontalAlignment(), group.lineStyle(), group.verticalAlignment(), 
+					group.groupLabel(), group.labelPrefix(), group.labelSuffix()));
 		} catch (ReportDataAccessException e) {
 			logger.error("[Kismiss:addGroup] Error happended => {}", e.getMessage());
 			throw new ReportDataAccessException(e);
@@ -723,7 +731,8 @@ public abstract class KismissFrontCore extends KismissMiddleCore {
 					group.isBold(), group.getFont(), group.getFontSize(), group.getLeftPadding(), group.getLineWidth() > 0?group.getLineWidth(): 
 						lineWidth, group.getBackColor(), 
 					StringUtils.isEmpty(group.getBackColor())?ColorMode.Transparent:ColorMode.Opaque, group.getHorizontalAlignment(),
-							group.getLabelHorizontalAlignment(), group.getLineStyle(), group.getVerticalAlignment()));
+							group.getLabelHorizontalAlignment(), group.getLineStyle(), group.getVerticalAlignment(), 
+							group.getGroupLabel(), group.getLabelPrefix(), group.getLabelSuffix()));
 		} catch (Exception e) {
 			logger.error("[Kismiss:addGroup] Error happended => {}", e.getMessage());
 			throw new ReportDataAccessException(e);

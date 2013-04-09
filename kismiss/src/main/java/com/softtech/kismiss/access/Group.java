@@ -32,7 +32,11 @@ public class Group {
 	private HorizontalAlignment labelHorizontalAlignment = HorizontalAlignment.Center;
 	private CalculationPrintType calculationPrintType = CalculationPrintType.GroupExpression;
 	private boolean bold							= true;
-	private String backColor						= "";				
+	private String backColor						= "";		
+	private String groupLabel						= "";
+	private String labelPrefix						= "";
+	private String labelSuffix						= "";
+	private String pattern							= "";
 	
 	public Group(String groupBy, List<Calculation> calculations, int bandHeight, int height, String underGroup)
 	{
@@ -201,6 +205,38 @@ public class Group {
 
 	public void setLabelHorizontalAlignment(HorizontalAlignment labelHorizontalAlignment) {
 		this.labelHorizontalAlignment = labelHorizontalAlignment;
+	}
+
+	public String getGroupLabel() {
+		return groupLabel;
+	}
+
+	public void setGroupLabel(String groupLabel) {
+		this.groupLabel = groupLabel;
+	}
+
+	public String getLabelPrefix() {
+		return labelPrefix;
+	}
+
+	public void setLabelPrefix(String labelPrefix) {
+		this.labelPrefix = labelPrefix;
+	}
+
+	public String getLabelSuffix() {
+		return labelSuffix;
+	}
+
+	public void setLabelSuffix(String labelSuffix) {
+		this.labelSuffix = labelSuffix;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 	
 }

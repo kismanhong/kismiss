@@ -25,7 +25,7 @@ public class ReportUtil {
 	
 	public Object[] getValues(List<PropertyInfo> infos, String attribute, String groupBy, Class<?> clazz) throws ReportDataAccessException
 	{
-		Object[] returns = new Object[5];
+		Object[] returns = new Object[6];
 			boolean notExist = true;
 			boolean validAttribute = false;
 				for (PropertyInfo att : infos) {
@@ -36,6 +36,7 @@ public class ReportUtil {
 						returns[2] = att.getWidth();
 						returns[3] = att.getHeight();
 						returns[4] = att.getType();
+						returns[5] = att.getPattern();
 						notExist = false;
 						//break;
 					}
@@ -64,7 +65,7 @@ public class ReportUtil {
 	
 	public int[] findPropertyOfMatchAttribute(List<PropertyInfo> infos, String attribute, Class<?> clazz) throws ReportDataAccessException
 	{
-		int[] returns = new int[4];
+		int[] returns = new int[5];
 			boolean notExist = true;
 				for (PropertyInfo att : infos) {
 					//checking attribute calculation is valid or not

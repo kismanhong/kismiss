@@ -78,6 +78,24 @@ public class CalculationInfo {
 	}
 	
 	public CalculationInfo(String attribute, String dataType, String calculationType, int xValue, int yValue, int width, int height, double lineWidth,
+			HorizontalAlignment horizontalAlignment, HorizontalAlignment labelHorizontalAlignment, String pattern)
+	{
+		setAttribute(attribute);
+		setCalculationType(calculationType);
+		setXValue(xValue);
+		setYValue(yValue);
+		setWidth(width);
+		setHeight(height);
+		setCalName(attribute+calculationType);
+		setCalGroupName(attribute+calculationType+"Advance");
+		setDataType(dataType);
+		setLineWidth(lineWidth);
+		setHorizontalAlignment(horizontalAlignment);
+		setLabelHorizontalAlignment(labelHorizontalAlignment);
+		setPattern(pattern);
+	}
+
+	public CalculationInfo(String attribute, String dataType, String calculationType, int xValue, int yValue, int width, int height, double lineWidth,
 			HorizontalAlignment horizontalAlignment, HorizontalAlignment labelHorizontalAlignment)
 	{
 		setAttribute(attribute);
@@ -93,8 +111,6 @@ public class CalculationInfo {
 		setHorizontalAlignment(horizontalAlignment);
 		setLabelHorizontalAlignment(labelHorizontalAlignment);
 	}
-
-	
 	
 
 	@Override

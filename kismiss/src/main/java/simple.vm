@@ -393,7 +393,7 @@
 							<textElement textAlignment="$groupIn.horizontalAlignment" verticalAlignment="$groupIn.verticalAlignment">
 								<font fontName="$groupIn.fontType" size="$groupIn.fontSize" isBold="$groupIn.bold"/>
 							</textElement>
-						<textFieldExpression class="$groupIn.dataType"><![CDATA[$V$curlyOpen_$group.attributeName$groupIn.calGroupName$curlyClose_]]></textFieldExpression>
+						<textFieldExpression pattern="$groupIn.pattern" class="$groupIn.dataType"><![CDATA[$V$curlyOpen_$group.attributeName$groupIn.calGroupName$curlyClose_]]></textFieldExpression>
 						</textField>
 #else
 #if($groupIn.xValue < $group.xLeftest)
@@ -442,12 +442,18 @@
 							<textElement textAlignment="$group.labelHorizontalAlignment" verticalAlignment="$group.verticalAlignment">
 								<font fontName="$group.fontType" size="$group.fontSize" isBold="$group.bold"/>
 							</textElement>
-						#if($group.calculationPrintType == 'GroupExpression')
-						<textFieldExpression class="java.lang.String"><![CDATA[$F$curlyOpen_$group.attributeName$curlyClose_]]></textFieldExpression>
-						#elseif($group.calculationPrintType == 'Total')
-						<textFieldExpression class="java.lang.String"><![CDATA[ "TOTAL " + $F$curlyOpen_$group.attributeName$curlyClose_]]></textFieldExpression>
+						#if($group.groupLabel == '')
+							#if($group.calculationPrintType == 'GroupExpression')
+							<textFieldExpression class="java.lang.String"><![CDATA["$group.labelPrefix" + " " + $F$curlyOpen_$group.attributeName$curlyClose_ + " " + "$group.labelSuffix"]]></textFieldExpression>
+							#elseif($group.calculationPrintType == 'Total')
+							<textFieldExpression class="java.lang.String"><![CDATA[ "TOTAL " + "$group.labelPrefix" + " " + $F$curlyOpen_$group.attributeName$curlyClose_ + " " + "$group.labelSuffix"]]></textFieldExpression>
+							#elseif($group.calculationPrintType == 'Blank')
+							<textFieldExpression class="java.lang.String"></textFieldExpression>
+							#else
+							<textFieldExpression class="java.lang.String"><![CDATA["$group.labelPrefix" + " " + "$calculationWord" + " "+ $F$curlyOpen_$group.attributeName$curlyClose_ + " " + "$group.labelSuffix"]]></textFieldExpression>
+							#end
 						#else
-						<textFieldExpression class="java.lang.String"><![CDATA["$calculationWord" + " "+ $F$curlyOpen_$group.attributeName$curlyClose_]]></textFieldExpression>
+							<textFieldExpression class="java.lang.String"><![CDATA[ "$group.groupLabel"]]></textFieldExpression>
 						#end
 						</textField>
 			</band>
